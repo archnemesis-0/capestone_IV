@@ -1,0 +1,50 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.2, pytest-9.1.1, pluggy-1.6.0 -- /Users/sohamdebmajumder/development/projects/projects/capestone_IV/Support/Support/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/sohamdebmajumder/development/projects/projects/capestone_IV/Support/Support
+plugins: anyio-4.14.2, Faker-40.36.0
+collecting ... collected 41 items
+
+tests/test_bronze.py::test_bronze_table_exists_and_not_empty[bronze_customers] PASSED [  2%]
+tests/test_bronze.py::test_bronze_table_exists_and_not_empty[bronze_orders] PASSED [  4%]
+tests/test_bronze.py::test_bronze_table_exists_and_not_empty[bronze_payments] PASSED [  7%]
+tests/test_bronze.py::test_bronze_table_exists_and_not_empty[bronze_customer_support] PASSED [  9%]
+tests/test_bronze.py::test_bronze_table_exists_and_not_empty[bronze_web_events] PASSED [ 12%]
+tests/test_bronze.py::test_bronze_row_count_matches_source_csv[bronze_customers-customers.csv] PASSED [ 14%]
+tests/test_bronze.py::test_bronze_row_count_matches_source_csv[bronze_orders-orders.csv] PASSED [ 17%]
+tests/test_bronze.py::test_bronze_row_count_matches_source_csv[bronze_payments-payments.csv] PASSED [ 19%]
+tests/test_bronze.py::test_bronze_row_count_matches_source_csv[bronze_customer_support-customer_support.csv] PASSED [ 21%]
+tests/test_bronze.py::test_bronze_row_count_matches_source_csv[bronze_web_events-web_events.csv] PASSED [ 24%]
+tests/test_bronze.py::test_bronze_customers_has_expected_columns PASSED  [ 26%]
+tests/test_customer360.py::test_customer_360_has_required_columns PASSED [ 29%]
+tests/test_customer360.py::test_customer_360_has_one_row_per_customer PASSED [ 31%]
+tests/test_customer360.py::test_customer_360_row_count_matches_silver_customers_dedup PASSED [ 34%]
+tests/test_customer360.py::test_customer_360_has_no_null_customer_ids PASSED [ 36%]
+tests/test_customer360.py::test_customer_360_has_no_negative_spend_or_orders PASSED [ 39%]
+tests/test_customer360.py::test_customer_360_segment_values_are_valid PASSED [ 41%]
+tests/test_customer360.py::test_customer_360_activity_status_values_are_valid PASSED [ 43%]
+tests/test_customer360.py::test_customer_360_activity_status_is_never_null PASSED [ 46%]
+tests/test_customer360.py::test_customer_360_first_order_not_after_last_order PASSED [ 48%]
+tests/test_customer360.py::test_customer_360_customers_with_no_orders_have_zero_spend PASSED [ 51%]
+tests/test_gold.py::test_gold_customer_orders_has_no_duplicate_customers PASSED [ 53%]
+tests/test_gold.py::test_gold_customer_orders_has_no_negative_spend PASSED [ 56%]
+tests/test_gold.py::test_gold_customer_orders_average_order_value_is_consistent PASSED [ 58%]
+tests/test_gold.py::test_gold_customer_support_ticket_counts_reconcile PASSED [ 60%]
+tests/test_gold.py::test_gold_customer_support_has_no_negative_ticket_counts PASSED [ 63%]
+tests/test_gold.py::test_gold_customer_engagement_has_no_duplicate_customers PASSED [ 65%]
+tests/test_gold.py::test_gold_customer_engagement_event_type_counts_reconcile PASSED [ 68%]
+tests/test_silver.py::test_silver_customers_dedup_has_no_duplicate_customer_ids PASSED [ 70%]
+tests/test_silver.py::test_silver_customers_dedup_has_no_null_customer_ids PASSED [ 73%]
+tests/test_silver.py::test_silver_customers_dedup_row_count_not_greater_than_bronze PASSED [ 75%]
+tests/test_silver.py::test_silver_customers_email_is_lowercase PASSED    [ 78%]
+tests/test_silver.py::test_silver_customers_phone_is_never_null PASSED   [ 80%]
+tests/test_silver.py::test_silver_customers_status_is_standardized PASSED [ 82%]
+tests/test_silver.py::test_silver_orders_has_no_negative_amounts PASSED  [ 85%]
+tests/test_silver.py::test_silver_orders_has_no_duplicate_order_ids PASSED [ 87%]
+tests/test_silver.py::test_silver_orders_active_excludes_cancelled PASSED [ 90%]
+tests/test_silver.py::test_silver_orders_reference_valid_customers PASSED [ 92%]
+tests/test_silver.py::test_silver_customer_support_reference_valid_customers PASSED [ 95%]
+tests/test_silver.py::test_silver_web_events_reference_valid_customers PASSED [ 97%]
+tests/test_silver.py::test_silver_customer_support_status_is_standardized PASSED [100%]
+
+============================== 41 passed in 0.78s ==============================
