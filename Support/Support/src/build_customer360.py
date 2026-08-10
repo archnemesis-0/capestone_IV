@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import duckdb
 import pandas as pd
 
@@ -33,7 +35,8 @@ customer_360 = (
                 "customer_id",
                 "open_tickets_count",
                 "resolved_tickets_count",
-                "closed_tickets_count"
+                "closed_tickets_count",
+                "last_ticket_date"
             ]
         ],
         on="customer_id",
@@ -43,7 +46,8 @@ customer_360 = (
         gold_customer_engagement[
             [
                 "customer_id",
-                "web_events"
+                "web_events",
+                "last_event_date"
             ]
         ],
         on="customer_id",
@@ -83,6 +87,40 @@ customer_360["customer_segment"] = (
 )
 
 # print(customer_360[customer_360["customer_segment"] == "VIP"])
+
+customer_360["last_activity_date"] = (
+    customer_360[["last_order_date", "last_ticket_date", "last_event_date"]]
+    .max(axis=1)
+)
+
+REFERENCE_DATE = pd.Timestamp(datetime.now().date())
+
+
+def assign_activity_status(row):
+    last_activity = row["last_activity_date"]
+
+    if pd.isna(last_activity):
+        return "NO_ACTIVITY"
+
+    days_since = (REFERENCE_DATE - last_activity).days
+
+    if days_since <= 90:
+        return "ACTIVE"
+    elif days_since <= 365:
+        return "DORMANT"
+    else:
+        return "CHURNED"
+
+
+customer_360["customer_activity_status"] = (
+    customer_360.apply(assign_activity_status, axis=1)
+)
+
+customer_360 = customer_360.drop(
+    columns=["last_ticket_date", "last_event_date", "last_activity_date"]
+)
+
+# print(customer_360[["customer_id", "customer_activity_status"]].head())
 
 # print(customer_360.columns)
 # print("Rows:", len(customer_360))
