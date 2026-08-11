@@ -28,7 +28,7 @@ customers = con.execute("SELECT * FROM customer_360").fetchdf()
 con.close()
 
 SEGMENT_OPTIONS = sorted(customers["customer_segment"].dropna().unique())
-STATUS_OPTIONS = sorted(customers["customer_activity_status"].dropna().unique())
+STATUS_OPTIONS = sorted(customers["customer_status"].dropna().unique())
 
 with st.sidebar:
     st.header("Search & filter")
@@ -60,13 +60,13 @@ if segment_filter:
     filtered = filtered[filtered["customer_segment"].isin(segment_filter)]
 
 if status_filter:
-    filtered = filtered[filtered["customer_activity_status"].isin(status_filter)]
+    filtered = filtered[filtered["customer_status"].isin(status_filter)]
 
 st.subheader(f"Results ({len(filtered):,} of {len(customers):,} customers)")
 
 display_columns = [
     "customer_id", "first_name", "last_name", "email",
-    "customer_segment", "customer_activity_status",
+    "customer_segment", "customer_status",
     "total_orders", "total_spend",
 ]
 st.dataframe(
@@ -124,4 +124,4 @@ badge_col1, badge_col2 = st.columns(2)
 with badge_col1:
     st.markdown(f"**Segment:** `{customer.customer_segment}`")
 with badge_col2:
-    st.markdown(f"**Activity status:** `{customer.customer_activity_status}`")
+    st.markdown(f"**Activity status:** `{customer.customer_status}`")

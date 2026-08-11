@@ -95,25 +95,23 @@ customer_360["last_activity_date"] = (
 
 REFERENCE_DATE = pd.Timestamp(datetime.now().date())
 
-
-def assign_activity_status(row):
+def assign_customer_status(row):
     last_activity = row["last_activity_date"]
 
     if pd.isna(last_activity):
-        return "NO_ACTIVITY"
+        return "INACTIVE"
 
     days_since = (REFERENCE_DATE - last_activity).days
 
-    if days_since <= 90:
+    if days_since < 30:
         return "ACTIVE"
-    elif days_since <= 365:
-        return "DORMANT"
+    elif days_since < 90:
+        return "AT_RISK"
     else:
-        return "CHURNED"
+        return "INACTIVE"
 
-
-customer_360["customer_activity_status"] = (
-    customer_360.apply(assign_activity_status, axis=1)
+customer_360["customer_status"] = (
+    customer_360.apply(assign_customer_status, axis=1)
 )
 
 customer_360 = customer_360.drop(
